@@ -1,0 +1,13 @@
+**** TÌM HIỂU VỀ CÁC KIỂU DỮ LIỆU TRONG DATABASE SQL*********
+>> các kiểu dữ liệu trong mysql:
+  - int: kiểu số nguyên
+  - float kiểu số thực
+  - char: ký tự cấp phát bộ nhớ cứng. không viết đc tiếng việt
+  - varchar: kiểu ký tự. cấp phát bộ nhớ động, không viết đc tiếng việt có dấu
+  - nchar: kiểu ký tự có thể viết tiếng việt có dấu. cấp phát bộ nhớ cứng
+  - nvarchar: kiểu ký tự có thể viết đc tiếng việt, kiểu ký tự cấp phát bộ nhớ động-
+  - date: lưu trữ ngày.
+  - time: kiểu lưu trữ giờ
+  - byte: kiểu lưu giá trị bit_wise 0 và 1
+  - text: kiểu văn bản có  thể lưu văn bản với nội dung lớn. không chứa ký tự unicode
+  - ntext: kiểu văn bản có chứa ký tự unicode (tiếng việt bỏ dấu đc, có thể viết đc tiếng việt)

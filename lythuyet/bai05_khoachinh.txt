@@ -1,0 +1,249 @@
+***TÌM HIỂU VỀ CÁCH SET KHÓA CHÍNH VFA KHÓA NGOẠI TRONG MYSQL*******
+
+
+
+************************************************************************************************************
+>>> KHÓA CHÍNH TRONG DATABASE MYSQL
+
+ - tìm hiểu về một số thuộc tính thiết lập bảng 
+   + unique: duy nhất, trong tạo bảng trường nào có unique thì sẽ không tồn tại 2 giá trị trùng nhau
+       
+       vd:
+            create table hocsinh(
+                mahs int unique
+            )
+
+   + not null: trường này không cho phép được để trống, bắt buộc phải có giá trị
+       
+       vd: 
+           create table hocsinh(
+              mahs int not null
+           )
+
+   + null: cho phép đc để trống có ghi hay không vẫn chấp nhận
+       vd: tg tu not null
+
+   + default: thiết lập giá trị value mặc định cho toàn bộ trg đó, không cần phải khai báo ở insert()value()
+   --> cd: mã id nếu default khi create table thì mặc định nó sẽ điền toàn bộ thông tin đó vào các trường giá 
+   trị id khác ở phía dưới bảng, mà không cần khai báo ở dưới insert.
+
+       vd: 
+           create table hocsinh(
+                name nvarchar(20) default  n'trần hữu phúc'
+           )
+
+           ---> tất cả các giá trị dòng name đều sẽ có chung tên 'trần hữu phúc', mà không cần khai báo ở dưới nữa
+
+
+
+
+
+**********************************************************************************************************
+
+
+>>>>> THIẾT LẬP KHÓA CHÍNH CHO SQL
+  >>C1: thiết lập khóa chính trực tiếp khi create table
+
+       -cấu trúc:
+           create table tên_bảng(
+                -- xác định được id làm khóa CHÍNH ngay từ đầu.
+                id int not null primary key,
+                ten nvarchar(20)
+           )
+
+
+
+ >>C2: thiết lập khóa chính sau khi đã tạo bảng.
+   - Lý do vì xác định key sai hay do chưa xác lập đc key chính.... ta có thể thiết lập primary key sao khi đã tạo
+   bảng như sau:
+
+       > cấu trúc:
+             
+               alter + table + tên_bảng + add + primary key + (tên_định_danh cần thiết lập primarykey)
+
+         + vd:
+               
+                 create table hoc_sinh(
+                     id int not null,
+                     ten  nvarchar(20),
+                     lop  char(10)
+                 )
+                ---> sau khi tạo bảng xác định ID làm mã chính, ta thiết LẬP primary key:
+
+                alter table hoc_sinh add primary key (id)
+
+
+
+
+  >>C3: tạo bảng trước tuy nhiên sau đó sẽ tạo primary key sau nhưng lại để thuộc tính ngay trong bảng create table luôn
+    - trường hợp này có nghĩa là sau khi tạo bảng rồi mới xác định primary key, tuy nhiên không khai báo ngoài bảng 
+    dùng alter mà ta khai báo trực tiếp trong create table () luôn.
+      
+         >: cấu trúc:
+              
+                  create table tên_bảng(
+                     id int not null,
+                     ten nvarchar(20),
+                     lop char(10)
+
+
+                     // note: tiến hành tạo primary key ngay trong bảng 
+
+                     primary key (id)
+                  )
+
+
+
+
+
+
+  >>C4: cách phổ biến ( khuyên dùng khi tạo primary key):
+  CÁCH ĐẶT TÊN KIỂM SOÁT PRIMARY KEY VỚI CONSTRAINT
+
+    --> cách này nhằm mục đích lầ tạo tên quản lý cho primarykey, để khi muốn thiết lập lại primary key ở trường
+    dữ liệu khác thì ta chỉ cần xóa đi cái tên vừa đặt mà không cần xóa cả bảng hay toàn bộ dữ liệu để tạo bảng 
+    lại từ đầu.
+          
+
+        > C4_1:
+
+          ++ ví dụ:
+             
+               create table hoc_sinh(
+                  id int not nul,
+                  ten nvarchar(20),
+                  lop char(10)
+
+                  -- tạo tên cho primary key.
+
+                  CONSTRAINT tên_quản_lý_key primary key (id)
+               ) 
+   
+
+      > C4_2:
+      
+      ---> ta có thể khai báo kiểu này ngoài bảng au khi tạo bảng cũng đc:
+           ++ ví dụ:
+
+              create table hoc_sinh(
+                  id int not nul,
+                  ten nvarchar(20),
+                  lop char(10)
+               ) 
+
+               -- tạo tên cho primary key nhưng khai báo ở bên ngoài sau khi đã tạo bảng trc.
+
+                  alter table hoc_sinh(tên bảng) add CONSTRAINT tên_quản_lý_key primary key (id)
+
+
+========>>>>> Note: C1, C3 và C4_1 đây là những cách sẽ đc khai báo ngay khi tạo bảng do nó nằm tt trong create
+table (), ưu điểm là nhanh chính xác.. nhưng nhc điểm là khó khăn trong việc upate  hay xóa key, gần như phải xác
+định lại.
+
+========>>>>> C2 và C4_2 là những cách được dùng sau khi tạo bảng trc rồi mới xác nhận primary key. Cách này dễ
+quản lý có thể thực thi sau khi đã tạo bảng trc.
+
+========= nên dùng cách C4_2: vì có đặt tên định danh cho trường đã xác định là primary key, dễ dàng xóa
+để chuyển primary key cho trường khác mà không cần xóa hết bảng hay dữ liệu.
+
+
+
+
+
+
+***********************************************************************************************
+
+>>>SPECIAL: CÁCH THIẾT LẬP 2 TRƯỜNG DỮ LIỆU LÀM KHÓA CHÍNH
+
+
+     > cấu trúc:
+         create table hoc_sinh(
+            id1 int not null,
+            id2 int not null,
+            ten nvarchar(20),
+            lop char(10)
+
+
+            // xét primary key cho 2 trường id1 và id2.
+            primary key (id1, id2)
+         )
+
+
+
+         ======> ta có thể dùng 4 cách trên ở trường hợp xét 1 trường làm primary key để thiết lập cho trg hợp 2 
+         trường được xét primary key, chỉ cần ngăn cách các trường với nhau bởi dấu ',' như ví dụ trên.  
+   
+             
+**************************************************************************************************
+
+>>>XÓA KHÓA CHÍNH TRONG SQL (TRG HỢP XÓA KHI NÃY CÓ ĐẶT TÊN VỚI CONSTRAINT)
+     
+     > Cú pháp xóa khóa chính bằng lệnh ALTER TABLE
+
+             ALTER TABLE ten_bang DROP CONSTRAINT ten_rang_buoc;
+
+            ++ ví dụ:
+                create table hoc_sinh(
+                    id int not null,
+                    ten nvarchar(20)
+                )
+
+                alter table hoc_sinh add CONSTRAINT ma_key primary key (id)
+
+
+        ----> lệnh xóa key với ten_rang_buoc đặt với CONSTRAINT
+
+          alter table hoc_sinh drop CONSTRAINT ma_key
+
+        --> lúc này ta thiết lập lại key mới như các bước ban đầu bt.
+
+*******************************************************************************************************
+>>> VÔ HIỆU HÓA PRIMARY KEY VỚI TEN_RÀNG_BUOC ĐẶT VỚI CONSTRAINT
+
+  > cú pháp
+       ALTER INDEX ten_rang_buoc ON ten_bang DISABLE
+
+    ++ ví dụ:
+        
+           create table hoc_sinh(
+                    id int not null,
+                    ten nvarchar(20)
+                )
+
+                alter table hoc_sinh add CONSTRAINT ma_key primary key (id)
+
+
+        ----> lệnh vô hiệu hóa key với ten_rang_buoc đặt với CONSTRAINT
+
+          alter index ma_key  on hoc_sinh DISABLE
+
+        --> lúc này ta thiết lập mỏ lại key mới bằng lệnh rebuild
+
+
+
+***********************************************************************************************************
+
+>>> KÍCH HOẠT LẠI PRIMARY KEY VỚI ten_rang_buoc ĐÃ ĐẶT VỚI CONSTRAINT
+
+   > cú pháp:
+       ALTER INDEX ten_rang_buoc ON ten_bang REBUILD
+
+
+     ++ ví dụ:
+        
+           create table hoc_sinh(
+                    id int not null,
+                    ten nvarchar(20)
+                )
+
+                alter table hoc_sinh add CONSTRAINT ma_key primary key (id)
+
+
+        ----> lệnh kích hoạt lại key với ten_rang_buoc đặt với CONSTRAINT
+
+          alter index ma_key  ON hoc_sinh REBUILD
+
+      
+
+
+      

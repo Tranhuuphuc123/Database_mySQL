@@ -1,0 +1,100 @@
+****** CÂU LỆNH TẠO BẢNG TRONG DATABASE*******
+>>> câu lệnh tạo bảng:
+  create table tên_file (
+    // nội dung trường tương ứng khhi tạo bảng
+    noidung 1,
+    noidung cuoi
+  )
+
+   ví dụ:
+
+                use dulieu01
+
+                CREATE TABLE Sach(
+                    magv nvarchar(10),
+                    masv nvarchar(100)
+                )
+                go
+                create table hocsinh(
+                    mahs nvarchar(10),
+                    masv nvarchar(20)
+                )
+                go
+
+
+Note: lưu ý khi tạo bảng code nên dùng câu lệnh use tên_database,
+để trỏ đến đúng bảng database vừa khởi tạo (nếu không sẽ dễ nhầm lẫn nội dung
+giữa cắc bảng với nhau)
+       
+
+>>> go:
+       câu lệnh go giúp ngắt dòng lệnh để thực thi từng khối 1 tránh việc thực thi
+    một lượt toàn bộ code gây chậm trễ ( ta thêm go theo sau một khối lệnh create)
+
+
+
+
+>>> câu lệnh xóa BẢNG (xóa toàn bộ bảng)
+    - câu lệnh:
+         drop table tên_bảng
+
+
+
+>>> câu lệnh thêm cột trong database khi tạo BẢNG (tạo thêm dòng cột)
+---> alter còn có chức năng sữa tất cả nội dung cần sữa:
+    + alter + column: chính là lệnh create column thêm tp cho bảng chính là thêm cột cho bảng
+    + alter database.....
+
+  >CẤU TRÚC:   alter  table   tên_bảng   add   tên_noidung _cần thêm   kieudulieu
+    vd: alter table hocsinh  add masv nvarchar(10)
+
+
+>>> lệnh xóa toàn bộ dữ liệu trong bảng chứ không xóa bảng di
+
+ - câu lệnh:
+       truncate table tên_bảng
+
+       ---> khuyên nên dùng lệnh xóa dữ liệu tức các dong row là lệnh 
+       DELETE tên_bảng where đk cần xóa( xem bài 04 lệnh DELETE)
+
+
+
+
+
+       >>> code minh họa:
+          
+             
+                --trỏ đến kiểu database để tránh lầm database
+                            USE dulieu01
+                            DROP
+
+
+                --tạo bảng 
+
+                              CREATE TABLE sach(
+                                masv NVARCHAR(10)
+                              )
+                              GO  -- lệnh thực thi từng khối lệnh với go
+
+
+                              -- câu lẹnh xóa bảng (xóa toàn bộ bảng)
+                              DROP TABLE sach
+                              GO
+
+                              -- thêm cột trong database
+                              ALTER TABLE sach ADD masach DATE
+
+
+                              -- xóa hết dữ liệu trong bảng
+                              TRUNCATE TABLE sach
+                              GO
+
+
+
+
+
+
+
+       
+
+   

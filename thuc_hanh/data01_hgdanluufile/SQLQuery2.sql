@@ -1,0 +1,9 @@
+﻿USE dulieu01
+GO
+
+CREATE TABLE SINHVIEN(
+	MASV BIGINT,
+	ten_sv  NVARCHAR(10),
+	lop  NVARCHAR(20)
+)
+go

@@ -1,0 +1,57 @@
+****HƯỚNG DẪN LƯU FILE DATABASE TRÊN MYCRIOSOFT SQL**********
+- CÓ 3 CÁCH LƯU file Database SQL trên sql manager studio:
+ >>01/ save theo đường dẫn mặc định khi set up phần mêm ban đầu
+
+ >> 02/ ta new Database> chon đường dẫn lưu file .mdf và .ldf
+
+ >> 03 cách này dùng lệnh code để TẠO
+
+    - cấu trúc:
+         
+             create Database tên_file_database 
+
+              ON (
+                name = tên_file_database,
+                fielname = 'dg dẫn muốn lưu\tên_file_database.mdf',
+
+                 size = (kích thước muốn chứa),
+                 maxsize=(kích thước lưu lớn nhất),
+                 filegrowth = (kích thước)
+              )
+              log ON(
+                name = tên_file_database_log,
+                fielname = 'dg dẫn muốn lưu\tên_file_database_log.ldf',
+
+                size = (kích thước muốn chứa),
+                 maxsize=(kích thước lưu lớn nhất),
+                 filegrowth = (kích thước)
+
+              )
+
+
+
+              ++ví dụ:
+
+                    CREATE DATABASE huuphuc
+                    ON
+                    ( NAME = huuphuc,
+                    FILENAME = 'G:\program file\DUONGAN_DATABASE_SQL\huuphuc.mdf',
+                    SIZE =20,
+                    MAXSIZE = 60,
+                    FILEGROWTH = 10)
+
+                    LOG ON(
+                        NAME =  huuphuc_log,
+                        FILENAME = 'G:\program file\DUONGAN_DATABASE_SQL\huuphuc_log.ldf',
+                        SIZE = 10,
+                        MAXSIZE = 40,
+                        FILEGROWTH = 10
+                    )
+                    GO
+
+
+                    ---> lưu ý huuphuc_log, thi log do la phai theo dung quy dinh vi tao file ldf.
+   
+
+
+

@@ -1,0 +1,19 @@
+**** TA SẼ TÌM HIỂU VỀ MY SQL DATABASE VỚI SQL *****
+
+- Tạo database bằng code:
+khi code tạo nó không phân biệt chữ hoa chữ thường
+
+    > create database tên_file( do người dùng đặt)
+
+- chú thích trong code mysql:
+   dấu: --
+
+
+
+
+- khi tạo code ta muốn xem lại thiết kế theo dạng table kéo thả thì ta dùng chuột phải vào bảng cần xem
+> chọn design
+
+
+
+- muốn thêm nội dung cho cot thì chuột phải bảng > chọn edit để thêm nội dung cho cột.

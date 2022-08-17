@@ -1,0 +1,223 @@
+***TÌM HIỂU CÁCH INSERT, UPDATE, DELETE DỮ LIỆU NGAY TRONG BẢNG ***************
+>> thêm dữ liệu bằng code (thủ công thì tạ r-click> edit---> dùng code thì dùng như sau):
+   ==>INSERT into table  ten_table-> lệnh insert table giống như mình thêm dòng row để ghi thêm dữ liệu vậy đó.
+
+    (  liệt kê đúng thứ tự các cột đã tạo trong bảng)
+
+    values(
+        nội dung cần chèn theo đúng thứ tự trong cột
+    )
+
+or có thể bỏ into table;
+  
+    INSERT   ten_table
+    (  liệt kê đúng thứ tự các cột đã tạo trong bảng)
+
+    values(
+        nội dung cần chèn theo đúng thứ tự trong cột
+    )
+
+
++ ví dụ code: ta sẽ tạo một bản và thêm giá trị dữ liệu cho nó bằng code
+
+                -- sử dụng đúng databasse đã tạo
+                            USE dulieu02
+                                GO
+
+                -- khởi tạo bảng
+                                CREATE TABLE  hocsinh(
+                                    mahs INT NOT NULL,
+                                    tenhs NVARCHAR(20) NOT NULL,
+                                    loai BIT NOT NULL,
+                                    diemso FLOAT NULL,
+                                    ngaysinh DATE NOT NULL
+
+                                )
+                                GO
+
+                --them dư liệu cho bảng bằng code
+
+                                INSERT dbo.hocsinh
+                                (
+                                    mahs,
+                                    tenhs,
+                                    loai,
+                                    diemso,
+                                    ngaysinh
+                                )
+                                VALUES
+                                (   0,        -- mahs - int - kiểu int thì chỉ cần đánh số là đc
+                                    N'trần hữu phúc',      -- tenhs - nvarchar(20)-> tên thi bỏ trong N''
+                                    0,     -- loai - bit--> giá trị 0 hoặc 1 hoặc null
+                                    10.20,      -- diemso - float--> số thì ghi trực tiếp không cần trong dấu ''
+                                    '19950922' -- ngaysinh - date--> ngày sinh thi ghi trực tiếp ngày theo cấu trúc yy/mm/dd
+                                            -- ===> có thể  dùng GETDATE('NỘI dung') hoặc ghi 'date' trong dấu ' '
+                                    )
+                                go
+
+
+                                	-- cách chạy thêm một dòng nữa
+                                    INSERT dbo.hocsinh
+                                    VALUES
+                                    (   0,       
+                                        N'trần hữu phúc',      
+                                        0,     
+                                        10.20,     
+                                        '19950922' 
+                                     )
+
+                     --> mỗi một value tg ứng 1 dòng, nhiều dòng thì nhiều value. Lưu ý là phần trong INSERT
+                     có thể bỏ nội dung trong () nó vẫn hiểu, tuy nhiên nên để. nhớ thứ tự các cột phải đúng.
+
+
+
+
+
+==>>> DELETE dữ liệu bằng code:
+
+ - xóa toàn bộ dữ liệu:
+      DELETE tên_bảng
+
+- xóa chủ đích dòng cột muốn xóa
+     DELETE tên_bảng  where tên_key_dòng_cần_xóa = số vị trí hay mã.....
+      vd:    
+               DELETE hocsinh where msv = 12
+
+         -- xóa chi tiết dòng, cột theo vị trí muons xóa
+
+                DELETE dbo.hocsinh WHERE mahs = 12
+                go
+
+-------------> ngoài ra sau where ta có thể thêm điều kiện(này thì làm nhiều sẽ cứng.. kinh nghiệm thực chiến)
+
+   ví dụ áp dụng điều kiện:
+
+        --thêm dữ liệu cho cột tiền lương( có thể sử dụng cấu trúc bỏ tp trong ngoặc của insert)
+
+                      DELETE dbo.hocsinh WHERE diemso<15 
+
+            -- >> đk để xóa là điểm dưới 15, áp dụng tg tự cho những điều kiện đặt ra để xóa dòng dữ liệu.
+            ---> ngoài ra còn có thể kết hợp thêm các điều kiện cugf lúc:
+            dùng các dấu >, <, and, or, >=, <=,
+
+
+
+
+
+====>>>>>>>>>>> UPDATE dữ liệu
+ > cấu trúc:
+     UPDATE tên_bảng set trường_upfate = ' giá trị cần updates'
+
+    -- update toàn bảng với giá trị 1 trường duy nhất
+      + ví dụ
+        UPDATE dbo.hocsinh SET mahs = 14001011
+
+
+   -- update toàn bảng với giá trị nhiều trường cần update
+     + ví dụ:
+       
+		 UPDATE dbo.hocsinh SET mahs=14001266 , tienthuong=550000
+
+   -- update cuẢ TRƯỜNG MONG MUỐN THUI( vd update tiền luong len 70000 chi danh cho nu->phai co dk where )
+
+		 UPDATE dbo.hocsinh SET  tienthuong=70000 WHERE gioitinh=0
+		 
+
+
+
+
+
+        >>>> cose tham hảo
+
+        
+                                    USE dulieu02
+                                    GO
+
+                                    --tạo bảng
+
+                                    CREATE TABLE hocsinh(
+                                        mahs INT NOT NULL,
+                                        ten NVARCHAR(20) NOT NULL,
+                                        lop CHAR(10) NULL,
+                                        gioitinh BIT NOT NULL,
+                                        diemthi FLOAT NOT NULL,
+                                        tienthuong INT NOT NULL,
+                                        ngay DATE NULL
+                                    )
+                                    GO
+
+
+                                    -- insert tạo các dòng row dữ liệu
+
+                                    INSERT dbo.hocsinh
+                                    (
+                                        mahs,
+                                        ten,
+                                        lop,
+                                        gioitinh,
+                                        diemthi,
+                                        tienthuong,
+                                        ngay
+                                    )
+                                    VALUES
+                                    (   1400253,        -- mahs - int-> số thì ghi trực tiếp
+                                        N'trần văn A',      -- ten - nvarchar(20)-> tên bỏ trong N''
+                                        'A',       -- lop - char(10)-> kiểu char tg tự 
+                                        1,     -- gioitinh - bit-> 0 và 1 the bittwise
+                                        17.5,      -- diemthi - float
+                                        200000,        -- tienthuong - int-> số ghi trực tiếp
+                                        '19950922' -- ngay - date->ghi trong  theo cấu trúc'yy/mm/dd'
+                                        )
+                                        INSERT dbo.hocsinh
+                                        VALUES
+                                        (   1400253,        -- mahs - int
+                                            N'Trần Văn B',      -- ten - nvarchar(20)
+                                            'B',       -- lop - char(10)
+                                            1,     -- gioitinh - bit
+                                            20.5,      -- diemthi - float
+                                            300000,        -- tienthuong - int
+                                            ('19990522') -- ngay - date
+                                            )
+                                            INSERT dbo.hocsinh
+                                        VALUES
+                                        (   1400253,        -- mahs - int
+                                            N'nguyễn thi C',      -- ten - nvarchar(20)
+                                            'C',       -- lop - char(10)
+                                            0,     -- gioitinh - bit
+                                            21.5,      -- diemthi - float
+                                            600000,        -- tienthuong - int
+                                            ('19970522') -- ngay - date
+                                            )
+                                            INSERT dbo.hocsinh
+                                        VALUES
+                                        (   1400253,        -- mahs - int
+                                            N'nguyễn thị A',      -- ten - nvarchar(20)
+                                            'c',       -- lop - char(10)
+                                            0,     -- gioitinh - bit
+                                            18.5,      -- diemthi - float
+                                            250000,        -- tienthuong - int
+                                            ('19980522') -- ngay - date
+                                            )
+                                            GO
+                                            
+
+                                            --- lệnh delete có điều kiện
+
+                                            DELETE dbo.hocsinh WHERE gioitinh=0 AND tienthuong<300000
+                                            GO
+                                            
+                                            --update dữ liệu toàn bảng với 1 trường update
+                                            UPDATE dbo.hocsinh SET mahs = 14001011
+                                            GO
+                                            
+                                            --update tòan bảng với nhiều trường giá trị khác nhau
+                                            UPDATE dbo.hocsinh SET mahs=14001266 , tienthuong=550000
+                                            GO
+                                            
+                                            -- update cuẢ TRƯỜNG MONG MUỐN THUI( vd update tieng luong len chi danh cho nu)
+                                            UPDATE dbo.hocsinh SET  tienthuong=70000 WHERE gioitinh=0
+                                            go
+                                            
+                                            
+            
+            
