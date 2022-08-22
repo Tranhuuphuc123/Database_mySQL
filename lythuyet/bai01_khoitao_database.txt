@@ -17,3 +17,16 @@ khi code tạo nó không phân biệt chữ hoa chữ thường
 
 
 - muốn thêm nội dung cho cot thì chuột phải bảng > chọn edit để thêm nội dung cho cột.
+
+
+>> cách doi ten database:
+   alter database ten_database_old modify name = ten_database_new;
+   
+     or
+    
+   rename database ten_dât_old TO ten_daa_new
+   
+     or
+    
+    
+  
