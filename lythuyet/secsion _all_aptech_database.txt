@@ -79,6 +79,30 @@ _  kien truc sql server:
          filegrowth = 10mb
       )
   ===> day la cach tao database va duong dan luu theo y minh bang lenh tool
+  
+  
+  
+ + Ownership(quyen so huu data va chuyen nhương dtaabase qua user khac)
+ + file mo rong  .ndf --> file mo rong khi mun them gia tri cho data ta khong the them vao file .mdf mà phai tao file .ndf de them vao
+    +++ cach tao filegroup duoi .ndf:
+        alter  database ten_data add filegroup ten_group
+ 
+ + cau lenh tao add dât vao filegroup (duoi mo rong .ndf)
+ 
+  alter database ten_data add file(
+    name=ten_data, filename='dg dan luu\ten_data.ndf',
+    size, maxsize, filegrowth
+  ) 
+  to filegroup ten-group
+  
+       ===> code vidu:
+       
+       
+                    
+        
+                   
+ 
+   
 
 
 
