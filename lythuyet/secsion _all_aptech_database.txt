@@ -50,7 +50,36 @@ _  kien truc sql server:
  3/ System database: data cua nhe thong tao san
 
 
->>>>
+
+
+
+
+
+
+
+********************************************************************************************************************************************************************>>NGAY 22/08/2022:
+>>>>>>>>>>>>>>>>>>BAI HOC VE CAU LENH TOOL QUERY VOI DATABASE (PHAN CODE)<<<<<<<<<<<<<<<<<<<<<<<
+- tao database bang cau lenh tool tren user database:
+ + tao database:
+      create database ten_data
+      ON
+      (
+        name = ten_data,
+        filename='dg dan luu database\ten_data.mdf',
+        size = 10mb (kich thuoc tu quy dinh)
+        maxsize = 20mb,
+        filegrowth = 10mb
+      )
+      LOG ON
+      (
+         name = ten_data_log,  // _log la bat buoc
+         filename='dg dan luu database\ten_data-log.ldf',
+         size = 10mb (kich thuoc tu quy dinh)
+         maxsize = 20mb,
+         filegrowth = 10mb
+      )
+  ===> day la cach tao database va duong dan luu theo y minh bang lenh tool
+
 
 
 
