@@ -28,5 +28,13 @@ khi code tạo nó không phân biệt chữ hoa chữ thường
    
      or
     
+
+
+
+      ---> để xem thay đổi vừa update ta code:
+                   
+                         select * from tên_bảng > chạy code là sẽ xem đc update.
+
+
     
   

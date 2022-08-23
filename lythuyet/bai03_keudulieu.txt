@@ -11,3 +11,19 @@
   - byte: kiểu lưu giá trị bit_wise 0 và 1
   - text: kiểu văn bản có  thể lưu văn bản với nội dung lớn. không chứa ký tự unicode
   - ntext: kiểu văn bản có chứa ký tự unicode (tiếng việt bỏ dấu đc, có thể viết đc tiếng việt)
+
+
+
+
+  >>>>>>>>>>>>kiểu ràng buộc
+   >> Default: kiểu ràng buộc mặc định. khi bỏ trống null thì giá trị amwcj đinh Default sẽ đc thiết lập
+   , vi dụ:
+      
+         create table phuc(
+            masv int not null,
+            ten nvarchar(30) Default 'khong can nhap ten'
+         )
+
+         ===> lúc này cot ten nào bỏ trống sẽ đc điên câu không cần nhập tên vào phần bỏ trống đó.
+
+  

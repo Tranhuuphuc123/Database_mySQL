@@ -1,0 +1,6 @@
+***************************CÂU LẸNH TẠO TABLE TRÊN DATABASE*************************
+>>>>> cách nhập dữ liệu:
+    insert into tên_bảng
+    values (
+      trg tương ứng với các cột trên bảng
+    )

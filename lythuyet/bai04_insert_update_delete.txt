@@ -57,7 +57,7 @@ or có thể bỏ into table;
 
 
                                 	-- cách chạy thêm một dòng nữa
-                                    INSERT dbo.hocsinh
+                                 ,
                                     VALUES
                                     (   0,       
                                         N'trần hữu phúc',      
@@ -66,9 +66,13 @@ or có thể bỏ into table;
                                         '19950922' 
                                      )
 
-                     --> mỗi một value tg ứng 1 dòng, nhiều dòng thì nhiều value. Lưu ý là phần trong INSERT
-                     có thể bỏ nội dung trong () nó vẫn hiểu, tuy nhiên nên để. nhớ thứ tự các cột phải đúng.
-
+                     --> mỗi một value tg ứng 1 dòng, nhiều dòng thì nhiều value cách nhau bởi dấu ','. 
+                     Lưu ý là phần trong INSERT có thể bỏ nội dung trong () nó vẫn hiểu, tuy nhiên nên để.
+                      nhớ thứ tự các cột phải đúng.
+ 
+                ---> để xem thay đổi vừa update ta code:
+                   
+                         select * from tên_bảng > chạy code là sẽ xem đc update.
 
 
 
@@ -120,7 +124,7 @@ or có thể bỏ into table;
 
    -- update cuẢ TRƯỜNG MONG MUỐN THUI( vd update tiền luong len 70000 chi danh cho nu->phai co dk where )
 
-		 UPDATE dbo.hocsinh SET  tienthuong=70000 WHERE gioitinh=0
+		 UPDATE dbo.hocsinh SET  tienthuong=70000 WHERE loai=0
 		 
 
 

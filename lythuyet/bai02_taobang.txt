@@ -59,6 +59,13 @@ giữa cắc bảng với nhau)
 
 
 
+  ---> để xem thay đổi vừa update ta code:
+                   
+                         select * from tên_bảng > chạy code là sẽ xem đc update.
+
+
+
+
 
 
        >>> code minh họa:
