@@ -1,0 +1,235 @@
+****TIM HIEU VE QUAN LY CO SO DU LIEU Aptech************
+
+***************** DATABASE********************:
+
+ - du lieu mo ta thong tin ve su vat, su viec co moi quan he voi nhau
+ duoc tap hop lai
+  + hinh thuc luu tru du lieu:
+      ++ file -based system
+      ++ luu thanh database tren sql(luu bang cong cu)->
+  uu tien vi co tinh he thong va quy uoc, du lieu luu tru on dinh, nhat quan va ben vung.
+
+***relational database managerment system (RDBMS): he quan tri csdl quan he.--> ho tro nhieu nguoi dung
+ - DBA(database administrator): nguoi quan ly cap cao trong database
+   + collcet taa ca thong tin
+   + cau hinh, quan ly, thiet lap va luu tru
+
+ - Databsse Desinger: nguoi thiet ke csdl
+ - enity: thuc the
+   + nhung su vat su kien, things bat ke thu gi dc mo ta.
+ - table(relational table vs database)
+    + tuple, record: tg tu row(dong)
+    + atribute: la column ( quy dinh rieng ),
+    
+
+
+
+*********************SQL SERVER 2019*****************
++ sql server
++ MySql(lam wweb voi php)
+
+_  kien truc sql server:
+   + instances: kho du lieu noi luu du lieu khi mo tao database instances dong vai tro la noi , kho luu tru du lieu
+        ++ defaults: amc dinh theo may
+                        vd: mo may mo voi SQL server mac dinh
+       ++ mo theo ten may: .\ten_sql server  or  tenmay\ten_sql server
+  
+    
+                                
+   + tools: quan ly chuc nang theo lenh(tao database bang lenh code hoac cong cu thu cong)
+   + services: giong chuc nang tool de thuc thi lenh nhung no khong dc tich hop san ma se dc cai dat theo nhu cau.
+     > Basic Architecture  of SQL server 2019: services tao lap bao cao.
+        ++ SQL server intergration  services (SSIS): goi tich hop csdl hop nhat giua cac database khac nhau
+        ++ SQL server Master data services:  quyen han co the lam moi thu nhung khong chuyen mot van de chuyen sau.
+   da chuc nang nhung khong di cu the mot chuc nang.
+
+
+  --->>>>>>>>>>3 LOAI DATABSE***************
+ 1/ USER DEFINED DATABASE: database do nguoi dung tao
+ 2/ Sample database:  database mau de ta thuc hanh ban dau.
+ 3/ System database: data cua nhe thong tao san
+
+
+
+
+
+
+
+
+
+********************************************************************************************************************************************************************>>NGAY 22/08/2022:
+>>>>>>>>>>>>>>>>>>BAI HOC VE CAU LENH TOOL QUERY VOI DATABASE (PHAN CODE)<<<<<<<<<<<<<<<<<<<<<<<
+*** tao database bang cau lenh tool tren user database:
+ - tao database:
+      create database ten_data
+      ON
+      (
+        name = ten_data,
+        filename='dg dan luu database\ten_data.mdf',
+        size = 10mb (kich thuoc tu quy dinh)
+        maxsize = 20mb,
+        filegrowth = 10mb
+      )
+      LOG ON
+      (
+         name = ten_data_log,  // _log la bat buoc
+         filename='dg dan luu database\ten_data-log.ldf',
+         size = 10mb (kich thuoc tu quy dinh)
+         maxsize = 20mb,
+         filegrowth = 10mb
+      )
+  ===> day la cach tao database va duong dan luu theo y minh bang lenh tool
+  
+  
+  
+
+ -  Ownership(quyen so huu data va chuyen nhương dtaabase qua user khac)
+
+ - file mo rong  .ndf --> file mo rong khi mun them gia tri cho data ta khong the them vao file .mdf mà phai tao file .ndf de them vao
+ do file ndf la file thu cap dung de mo rộng cho mdf theo nhóm đc phan tạo ra từ file mdf.
+    + cach tao filegroup duoi .ndf:
+
+               alter  database ten_data add filegroup ten_group
+
+               vd:
+                    ALTER DATABASE NewDB  ADD FILEGROUP Group1
+ 
+    + cau lenh tao add data vao filegroup (duoi mo rong .ndf)
+ 
+              alter database ten_data add file(
+                name=ten_data, filename='dg dan luu\ten_data.ndf',
+                size, maxsize, filegrowth
+              ) 
+              to filegroup ten-group
+
+
+             ++ vd:
+                   
+            ALTER DATABASE NewDB
+            ADD FILE (Name = 'NewDB1b', Filename='D:\otmlinh\dm\NewDB1b.ndf')
+            TO FILEGROUP Group1
+
+                  
+
+
+  - tạo file backup recovery với snapshot
+     --> tạo file sao lưu dữ liệu với thuộc tính Snapshot, đây là fiel backup dùng để chạy lại dữ liệu khi web sai cần thiết lập lại. trong
+     quá trình web site hoạt động thì có rất nhiều dữ liệu người dùng đưa vào nên ta cần sao lưu nhầm có thể chạy lại ctrinh mà không cần code
+     lại từ đầu.  
+
+        >> cú pháp:
+           
+                       create database tên_data.
+
+                       --> tiến hành tạo file sao lưu
+
+                        create database ten_data_Snapshot   //_Snapshot là thuộc tính tạo file sao lưu.
+                        on(
+                            name = ten_data,
+                            filename ='dg dẫn luu file\ten_data.ss'
+
+                        )
+                        as Snapshot of tên_data.
+
+
+
+
+
+                  ++ ví dụ:
+
+                       CREATE DATABASE phuc_Snapshot ON
+                      (
+                        NAME = phuc,
+                        FILENAME = 'D:\vidu\phuc.ss'
+                      ),(
+                        NAME=phuc_recor,
+                        FILENAME ='D:\vidu\phuc_recor.ss'
+                      )
+                      AS SNAPSHOT OF phuc
+                      
+     ----------------> lưu ý khi sao lưu thì có bao nhiêu file đã tạo trc đó bắt buộc file cho vào backup với Snapshot hết
+
+
+
+
+
+
+
+       <===> code tham khao:
+
+
+                                  --tạo database
+                                  CREATE DATABASE phuc
+                                  GO
+
+                                  -- xóa database
+                                  DROP DATABASE phuc
+                                  GO
+
+
+                                  --tạo database với dg dẫn lưu
+                                  CREATE DATABASE phuc 
+                                  ON(
+                                    NAME=phuc,
+                                    FILENAME ='D:\vidu\phuc.mdf',
+                                    SIZE=100MB,
+                                    MAXSIZE=UNLIMITED,
+                                    FILEGROWTH=100MB
+                                  )
+                                  LOG ON(
+                                      NAME=phuc_log,
+                                    FILENAME ='D:\vidu\phuc_log.ldf',
+                                    SIZE=100MB,
+                                    MAXSIZE=UNLIMITED,
+                                    FILEGROWTH=100mb
+                                  )
+                                  GO
+
+
+                                  -- tạo file .ndf để mở rộng cho database trên file .mdf
+                                  ALTER DATABASE phuc ADD FILEGROUP nhom01
+
+
+                                  ALTER DATABASE phuc 
+                                  ADD FILE(
+                                    NAME=phuc_recor,
+                                    FILENAME ='D:\vidu\phuc_recor.ndf'
+                                  ) TO FILEGROUP nhom01
+                                  GO
+
+
+                                  -- tạo file backup sao lưu với Snapshot
+
+                                  CREATE DATABASE phuc_Snapshot ON
+                                  (
+                                    NAME = phuc,
+                                    FILENAME = 'D:\vidu\phuc.ss'
+                                  ),(
+                                    NAME=phuc_recor,
+                                    FILENAME ='D:\vidu\phuc_recor.ss'
+                                  )
+                                  AS SNAPSHOT OF phuc
+
+  ----------------> lưu ý khi sao lưu thì có bao nhiêu file đã tạo trc đó bắt buộc file cho vào backup với Snapshot hết
+
+
+
+       
+       
+                    
+        
+                   
+ 
+   
+
+
+
+
+
+
+                   
+
+
+       
+    
+    

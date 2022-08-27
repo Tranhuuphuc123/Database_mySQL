@@ -1,0 +1,236 @@
+*************************** CÂU LỆNH TẠO DATABASE CƠ BẢN VÀ THÔNG DỤNG *************************
+>>>>> Tổng hợp các câu lệnh tool database cơ bản.
+  >> tạo database.
+     create database tên_data.
+
+  >> tạo database và dg dân lưu theo ý với tool
+  
+        create database ten_data
+          ON
+          (
+            name = ten_data,
+            filename='dg dan luu database\ten_data.mdf',
+            size = 10mb (kich thuoc tu quy dinh)
+            maxsize = 20mb,
+            filegrowth = 10mb
+          )
+          LOG ON
+          (
+            name = ten_data_log,  // _log la bat buoc
+            filename='dg dan luu database\ten_data-log.ldf',
+            size = 10mb (kich thuoc tu quy dinh)
+            maxsize = 20mb,
+            filegrowth = 10mb
+          )
+      ===> day la cach tao database va duong dan luu theo y minh bang lenh tool
+
+
+
+ >>xoa database (xoa het database)
+
+      drop database tên_data.
+
+  >> đổi tên raname database.
+
+     alter database tên_data modify name ='tên_data mới'
+
+
+
+
+ >> tạo bảng table
+
+    create table tên_table(
+       tên côt   kiểu_dữ_liêu
+       // nhiều cột thì cách nhau dấu ','
+
+    )
+
+    ++ ví dụ:
+
+              create table customer (
+                  CustomerID int identity(10,1) primary key,
+                  Custometname varchar(50) not null default 'no name',
+                  Adress varchar(50) null,
+                  Discount int not null default 0
+                )
+
+
+
+  >> đổi tên table.
+
+    alter table [tên_table] modify name ='tên_table mới'
+
+
+
+  >> đổi tên cột trong bảng.
+
+          alter table [tên_table] change [tên_cột_cũ] [tên_cột_mới] [datatype]
+
+     ++vd: đổi phuc1 thành phuc2
+
+          alter table customer change phuc1 phuc2 int 
+
+      
+
+  >> đổi kiểu dữ liệu cột trong bảng.
+
+       alter table [tên_table] alter column [tên_cột] [kiểu datatype muốn đổi] 
+
+    ++ví dụ: đổi kiểu int sang nvarchar của cột Age trong bảng customer.
+       
+       alter table customer  alter column Age nvarchar(50)
+
+
+ >> xóa table
+
+    drop table tên_table.
+
+  
+>> xóa cột trong bảng.
+
+  alter table [tên_bảng] drop column [tên_cột]
+
+        // có thể kèm theo đk với [where] ở trg hợp có nhiều cột trùng tên
+        
+          ++ ví dụ: xóa cột age nhung các cột age cố tuổi trên 19.
+
+            DELETE from customer where Age = 19.(xem ơ bảng tổng hợp lệnh tool pdf)
+
+  
+
+>> THÊM CỘT CHO TABLE.
+ 
+       alter table [Tên_table] add [tên_cột] [kiểu datatatype]
+
+    
+>> khóa chính, khóa ngoại xem thêm lý thuyết ở mục lythuyet, và file pdf tonghopcaulenh_database.
+(Đã nêu rất rõ và chi tiết)
+
+
+
+
+>> cách nhập dữ liệu:
+        insert into tên_bảng
+        values (
+          trg tương ứng với các cột trên bảng
+        )
+
+
+
+
+        =====> xem thêm ở muc lythuet (insert_update_delete.txt)
+
+
+
+
+
+
+
+
+
+
+
+
+******************************CÁC THUỘC TÍNH BỔ TRỌ*******************
+>> identity: thuoocjt ính tự tăng giá trị.
+
+      create table phuc (
+        stt int identity(1,1) primary key,
+        ten nvarchar
+        ....
+      )
+      ===> khi tao với identity thi mặc định stt sẽ tự động tăng từ 1-2-3..... theo số trường nhập vào mà không
+      cần nhập gia trị cho cột stt.
+
+
+
+
+
+
+>> giá trị default: giá trị mặc định dữ liệu khi bỏ trống
+
+      create table phuc(
+
+        stt int primary key,
+        ten nvarchar(30) default 'khong xac dinh'
+      )
+
+      ===> luc này cột ten nếu bỏ trống sẽ tự thêm 'khong xac dinh' vào chỗ trống đó
+
+
+  
+
+>> check: thuộc tính tạo ràng buộc kiểm tra
+
+    - th1: thêm ràng buộc check ngay trong create table
+
+       create table [tên bảng](
+
+         stt int primary key,
+         ten  nvarchar(30) not null,
+         Age int not null check (Age>=18)
+       )
+       ===> chỉ nhập đc cột Age là >=18 trở lên
+
+      
+    - th2: viết bên ngoài bảng
+
+       alter table [tên bảng] add check (Age>=18)
+
+
+
+
+
+
+
+
+
+
+  *******************TẠO FILE MỞ RỘNG .NDF VÀ SAO LƯU SNAPSOT*****************************
+
+
+   - file mo rong  .ndf --> file mo rong khi mun them gia tri cho data ta khong the them vao file .mdf mà phai tao file .ndf de them vao
+ do file ndf la file thu cap dung de mo rộng cho mdf theo nhóm đc phan tạo ra từ file mdf.
+    + cach tao filegroup duoi .ndf:
+
+               alter  database ten_data add filegroup ten_group
+
+               vd:
+                    ALTER DATABASE NewDB  ADD FILEGROUP Group1
+ 
+    + cau lenh tao add data vao filegroup (duoi mo rong .ndf)
+ 
+              alter database ten_data add file(
+                name=ten_data, filename='dg dan luu\ten_data.ndf',
+                size, maxsize, filegrowth
+              ) 
+              to filegroup ten-group
+
+
+             ++ vd:
+                   
+            ALTER DATABASE NewDB
+            ADD FILE (Name = 'NewDB1b', Filename='D:\otmlinh\dm\NewDB1b.ndf')
+            TO FILEGROUP Group1
+
+                  
+
+
+  - tạo file backup recovery với snapshot
+     --> tạo file sao lưu dữ liệu với thuộc tính Snapshot, đây là fiel backup dùng để chạy lại dữ liệu khi web sai cần thiết lập lại. trong
+     quá trình web site hoạt động thì có rất nhiều dữ liệu người dùng đưa vào nên ta cần sao lưu nhầm có thể chạy lại ctrinh mà không cần code
+     lại từ đầu.  
+
+        >> cú pháp:
+           
+                       create database tên_data.
+
+                       --> tiến hành tạo file sao lưu
+
+                        create database ten_data_Snapshot   //_Snapshot là thuộc tính tạo file sao lưu.
+                        on(
+                            name = ten_data,
+                            filename ='dg dẫn luu file\ten_data.ss'
+
+                        )
+                        as Snapshot of tên_data.
