@@ -1,1 +1,113 @@
-***
+*******************LỆNH TRUY VẤN SELECT (TIẾP THEP CONT..)********************
+
+>>> SELECT WITH WHERE: lệnh truy vấn với điều kiện
+
+ - Operator of WHERE: toán tử kết hợp điều kiện với WHERE
+  
+  toán tử                                           mô tả
+   =                                            so sánh bằng
+   <>                                           khác #
+   >                                            lớn hơn
+   <                                            bé hơn
+   >=                                           lớn hơn hoặc bằng
+   <=                                           bé hơn hoặc bằng
+   !                                            phủ định
+   between                                      khoảng giữa 2 kết quả, phải đi với đk 'and'...
+   Like                                         
+   and , Or                                     nối điều kiện
+   In                                           một tập hợp các giá trị trong khoảng đc liệt kê
+
+
+
+
+
+
+
+
+   *********** Điều kiện với BETWEEN  kết hợp AND**********
+     
+            SELECT * FROM dbo.Products
+
+       --> hiển thị giá từ 10 tới 50,, lúc này chỉ những dòng có giá 10 tới 50 mới đc hiển thị ra
+
+            SELECT * FROM dbo.Products WHERE UnitPrice BETWEEN 10 AND 50
+
+       ---> kết hợp order by vs điều kiện để xem rọn ràng thứ tự
+
+            SELECT * FROM dbo.Products WHERE UnitPrice BETWEEN 10 AND 50 ORDER BY UnitPrice
+
+
+
+
+            
+
+      
+   ****** Điều kiện với IN (trong khoảng liệt kê muốn lấy)********
+
+       ---> ví dụ muốn tìm khách hàng mà họ nằm ở những quốc gia cụ thể như UK, France,Spain, USA
+
+            SELECT * FROM dbo.Customers
+
+            // truy vấn điều kiện thêm order by để trình tự sắp xếp dễ xem
+
+            SELECT * FROM dbo.Customers WHERE Country IN  ('UK', 'Spain', 'France', 'USA') ORDER BY  Country
+        
+    
+        ---> kết hợp điều kiền and đó là vừa nằm trong khoảng các quốc gia của đk với Int mà còn phải là Owner(chủ) trong mục ContactTitle
+
+            SELECT * FROM dbo.Customers WHERE Country IN ('UK', 'Spain', 'France', 'USA') AND ContactTitle = 'Owner'
+            ORDER BY Country
+
+                // thêm thuộc tính sắp xếp cho dễ nhìn
+
+
+=====================>>>> Nhìn chung các lệnh truy vấn điều kiện where với các toán tử where, in... đều có thể 
+kết hợp với nhau ví dụ BETWEEN với AND, hay In với WHERE......
+
+
+
+
+
+
+>>> SPECIAL:  truy vấn điều kiện với LIKE
+ - Cấu trúc:
+  thay vì sau where trg sữ liệu = .... thì ta thay [like ' '] kèm các ký tự phụ thuộc
+
+  + %: đại diện cho một sâu chuỗi ký tự
+
+    ++ ví dụ:
+       select * from dbo.Order where EmployeeID = 'A'
+       --> thay vì viết như thế ta dùng like với %
+
+       select * from dbo.Order where EmployeeID like '%A%'
+
+       ---> % nghĩa là bắt đầu bằng chữ cái có A còn sau hoặc trước ký tự A có chữ gì nó cũng chấp nhận là đúng.
+       Miễn sao có chứ A là nó sẽ quét.
+
+
+
+
+  + dấu '_': đại diện lấy 1 ký tự thui
+
+   select * from Customers where name like 'Hu_'
+
+   --> lúc này tất cả name có tên Hu và một ký tự sau nó sẽ đc chấp nhận nếu Hu theo sau nó nhiều hơn 1 ký tự
+   thì select sẽ không quét.
+
+
+
+
+   + dấu []: lấy ký tự đc chỉ định
+       sau đk where name like 'H [AN] [UI]' thì nghĩa là name nào có H A U hoặc H N I.... thì chấp nhận, Miễn
+  sao có ít nhất 2 ký tự đúng.
+      
+
+
+
+  + dấu [^]: phủ định bỏ qua chữ cái sau ^
+    sau đk where chữ cái nào đc liệt kê sau ^ thì xem như loại bỏ không quét..
+      ++ ví dụ:
+
+        where name like 'H [^R] [^I]' chỉ cần name nào có 1 trong 2 chữ cái là R hoặc I là bỏ qua.
+
+      

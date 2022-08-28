@@ -1,6 +1,157 @@
 ********************ACESING DATA ==> CÂU LỆNH TRUY VẤN SELECT *******************
->>> TÌM HIỂU VỀ CÂU LỆNH TRUY VẤN:
+>>>>>>> TÌM HIỂU VỀ CÂU LỆNH TRUY VẤN:
+  >>> CÂU LỆNH LẤY DỮ LIỆU TỪ TRUY VẤN SELECT
+    - Câu lệnh:
 
- 
+       select * from [tên_table]
+
+           + trong dấu '*': dc gọi là astetisk, ý nghĩa có thể truy vấn tất cả dữ liệu từ bảng.
+
+        ---> ngoài ra ta có thể hiển thị từng cột theo ý găn cách bởi dấu ',' hoặc có thể kết hợp 2 thông tin
+        lại với nhau với dấu '+':
+
+
+          +ví dụ:
+             
+             -- ta có thể hiển thị từng cột và kết hợp theo ý như sau
+            SELECT EmployeeID, lastName, Firstname FROM dbo.Employees
+            GO
+
+              -- kết hợp họ và tên lại thông qua dấu '+'
+            SELECT EmployeeID, lastName + ' ' + Firstname FROM dbo.Employees
+            GO
+         
+         ----> lúc này phần lastName và Firstname sẽ gợp lại
+
+            -- cách đặt tên hiển thị cho cột--> lưu ý đây là cách đặt tên khi hiển thị với select không thay thế tên trên create table.
+
+            SELECT EmployeeID, lastName + ' ' + Firstname AS 'ho va ten' FROM dbo.Employees
+            GO
+        ---> lúc này cột hiển thị sẽ có tên là 'ho va ten' theo ý người đặt.
+
+
+
+                              
+                
+
+  >>>Cách đặt tên cho cột hiển thị trên select
+    cú pháp:
+       as [tên_dat]
+
+        vd:
+        -- cách đặt tên hiển thị cho cột--> lưu ý đây là cách đặt tên khi hiển thị với select không thay thế tên trên create table.
+
+            SELECT EmployeeID, lastName + ' ' + Firstname AS 'ho va ten' FROM dbo.Employees
+            GO
+        ---> lúc này cột hiển thị sẽ có tên là 'ho va ten' theo ý người đặt.
+
+
+  
+
+  >>> PHÉP TÍNH COMPUTING VALUE IN RESULTSET (giá trị tự tính đc trong sql) vs (+ - * /) TRONG SELECT :
+   - đặt trường hợp ta có cột đơn giá và số lượng trong bảng sản phẩm ta muốn biết thành tiền của nó,
+   thì hiển thị nó ra và dùng phép nhân * để hiện thị kết quả:
+
+      ++ ví dụ:
+
+         SELECT ProductID, UnitPrice, UnitsInStock, UnitPrice * UnitsInStock AS 'thanh tien tu tinh'
+        FROM dbo.Products
+
+    ---------> lúc này ngoài biết được cột đơn giá và só lượng ta có biết đc kết quả thành tiền của nó.
+    Ngoài ra có thể dùng các phép tính khác + nối 2 chuỗi như vd trên.....
+
+
+
+
+
+>>> Using DISTINCT: giá trị duy nhất tránh giá trị trùng nhau lặp lại
+ - đặt th ta muốn hiện thị ở bảng employee các city nhưng có nhiều dòng có chung một tp thì khai báo DISTINCT
+sẽ tránh lặp lại các city đó.
+  + vd:
+      
+          // hiển thị tất cả
+            SELECT * FROM dbo.Employees
+
+        // hiển thị riêng city thui nhưng có nhiểu dòng trung tên city
+            SELECT City FROM dbo.Employees
+
+       ------> khai báo với ditinct tránh lặp lại từ khóa trùng nhau
+            SELECT DISTINCT City FROM dbo.Employees
+
+
+  
+
+
+>>> Using TOP and PERCENT:  
+ - TOP: hiển thị số dòng muốn hiển thị
+     
+         SELECT TOP 10 * FROM dbo.Customers
+
+         ---> số dòng sẽ hiển thị là 10 dòng trog bảng Customers có hơn 100 dòng.
+
+ -PERCENT:  là tính phần trăm trăm tổng số lượng
+   ---> ví dụ trong bảng products sản phẩm có 77 dòng ta lấy 10% thì tức bằng 7.7 dóng nó sẽ làm tròn lên 8
+   và ta lấy đc 8 dòng.
+        
+            ---> dùng persent
+              SELECT * FROM dbo.Products
+
+              SELECT TOP 10 PERCENT * FROM dbo.Products
+              ---> lấy đc 8 dòng.
+
+
+
+  
+
+  >>> Oder by | desc: sắp xếp theo chiều tăng giảm khi hiển hị truy vấn select.
+
+            ---thuât ngữ oder by  sắp xếp tăng dần từ bé lên cao
+
+            SELECT * FROM dbo.Products ORDER BY UnitPrice
+
+            --> chiều giảm dần order by desc từ cao xuống thấp
+
+            SELECT * FROM dbo.Products ORDER BY UnitPrice DESC
+
+
+
+
+
+>>> WITH TIES:
+ - trong trường hợp ta lấy ra 10 người có điể đạt yêu cầu nhuwg do người 11 có điểm trùng với người thứ 10, mặc 
+ dù trùng nhưng do lệnh top 10 thiết lập chỉ lấy đúng 10 nên người t11 sẽ bị bỏ đi. Vậy để lấy đc luôn người 
+ t11 ta thêm with ties vào:
+  
+
+    ++ ví dụ:
+
+         -- tránh mất dữ liệu với người có chung giá trị với with ties
+
+        SELECT TOP 11 * FROM dbo.Products  ORDER BY UnitPrice DESC
+
+        ---> có 2 giá trị UnitPrice trùng 49.30 nhưng top 10 chỉ lấy 10 nên đã bỏ mất -> khắc phục
+        SELECT TOP 11  WITH TIES* FROM dbo.Products ORDER BY UnitPrice DESC
+
+
+
+>>> Câu lệnh SELECT INTO: copy table tổng quan (gọi là copy toàn diện table đã tạo sẵn)
+   - câu lệnh:
+
+      select top 10 * into phuc1 from Products
+
+      ==> công dụng câu lệnh trên sẽ tạo ra một bảng mới tên là phuc1 và chứa toàn bộ thông tin 10 dòng đầu của
+      bảng table Products, tương tự nếu select * into... thì nó sẽ sao chép hết dữ liệu cho bảng tbale phuc1 vừa tạo.
+
+
+
+
+
+          
+
+        
+
+
+
+           
 
   
