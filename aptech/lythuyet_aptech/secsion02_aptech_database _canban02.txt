@@ -132,7 +132,7 @@
 
 
 ******************************CÁC THUỘC TÍNH BỔ TRỌ*******************
->> identity: thuoocjt ính tự tăng giá trị.
+>> identity: thuộc tính tự tăng giá trị.
 
       create table phuc (
         stt int identity(1,1) primary key,

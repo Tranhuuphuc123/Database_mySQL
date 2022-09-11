@@ -1,0 +1,109 @@
+************* TRUY VẤN SELECT NÂNG CAO VỚI GROUP BY **************
+-khái niệm:  GROUP BY  thuộc tính truy vấn theo nhóm để thao tác lệnh
+
+
+
+>>>thông thường ta đếm số lượng một cách đơn lẻ nhưng giả dụ muốn kiểm xem trong cột đó đối tượng đó có bao nhiêu
+ + vd: gioitinh có nam và nu thi dem xem nam có bao nhieu nam và nu co bao nhieu nu... thi ta dung hàm count nhưng
+ count với group by tức đếm theo nhóm
+
+
+    -- đếm số lượng cột nào đó nhưng đếm theo nhóm chứ không đếm đại trà hết bảng
+
+    SELECT * FROM dbo.Products
+
+    --ví dụ đầy là đếm các mã ID trong cột SupplierID xem mỗi giá trị có bao nhiêu
+
+    SELECT SupplierID, COUNT(*) FROM dbo.Products GROUP BY SupplierID
+
+    --đặt tên cột để tiện theo dõi
+
+    SELECT SupplierID, COUNT(*) AS cot_moi FROM dbo.Products GROUP BY SupplierID
+
+
+========> có thể thay hàm COUNT bằng SUM, AVG... tức là tính toán theo nhóm với GROUP BY. chứ khong nhất thiết alf chỉ
+dùng count mới group by được
+
+
+    -- đếm với cột khác
+
+    SELECT * FROM dbo.Orders
+    SELECT CustomerID, COUNT(*) FROM dbo.Orders GROUP BY CustomerID
+
+    -- thay vì đếm ta tính tổng customerID có giá trị tổng EmployeeID là nhiêu
+
+    SELECT CustomerID, SUM(EmployeeID) FROM  dbo.Orders GROUP BY CustomerID 
+
+
+
+*** đặt ra bài toán:
+  -- tính tổng giá trị từ bảng odder details xem cột oderID có [đơngiá] x [sl] = ? và tính tổng các giá trị 
+  đó lại theo nhóm  của mỗi odderID, (thay vì đếm thì ta nhóm lại rồi tính tổng)
+
+        SELECT * FROM dbo.[Order Details]
+
+        SELECT OrderID, SUM(UnitPrice*Quantity) AS tong FROM dbo.[Order Details] GROUP BY OrderID
+
+
+
+
+
+
+
+
+>>> GROUP BY WITH HAVING: Having được xem là hàm đk giống where nhưng sử dụng trong câu lệnh truy vấn với group by
+nhưng tại sao lại không dùng where trong group by. Đơn giản vì where là xét đk theo cột( tức là có where thì phải thêm 
+trường cột điều kiện, giá trị cụ thể đc create vào nó mới hiêu), còn dùng having thì chỉ xét đến biến giá trị 
+mà đặc biệt là count hay sum.. (tức các truy vấn với group by mà theo diện tự tính thêm vào chứu không có sẵn cột đc
+được create trc). 
+
+ 
+               ********** điều kiện với having*************
+
+        SELECT * FROM dbo.Orders
+        --nhóm lại đếm theo group by
+        SELECT  CustomerID, COUNT(*) FROM dbo.Orders GROUP BY CustomerID
+        --dùng đk với havving
+        SELECT  CustomerID, COUNT(*) FROM dbo.Orders GROUP BY CustomerID HAVING COUNT(*) >=10
+
+
+===> ta có thể dùng nhiều đk khác nhau với having.. xem phần code bên Query_sql
+
+
+
+
+
+
+>>>GROUP BY VỚI CUBE VÀ ROLLUP
+ - rollup vơi cube được dùng để tự tính tổng khi dùng truy vấn với group by..
+thay vì ta group by nhóm đối tượng rồi dùng hàm sum, thì việc lk nhiều bảng với nhiều group by sẽ gây hạn 
+chế cho việc tính tổng ( vì nó tính mộ cách tổng quát không cụ thể theo group by). Cho nên dùng rollup và 
+cube sẽ giúp  phân định tỏng theo nhóm group by trc đó.
+===> hãy xem ví dụ để hiểu
+
+  ++ ví dụ:
+
+   ====> xem ví dụ cụ thể bền phần: Query_sql/Aptech05_truyvannangcao_groupby.sql/ ->phần rollup và cube.
+
+
+
+
+>>> CÂU LỆNH TRUY VẤN CON SUB_QUERY.
+ - câu lệnh truy vấn nằm bên trong một câu lệnh truy vấn khác gọi là câu lệnh truy vấn CON
+
+
+   -- câu lệnh truy vấn con
+   select * from [Order Details]
+   -- muốn xem giá cao nhất
+   select  max(UnitPrice) from Products
+   -- vấn đề đặt ra là với lệnh trên chỉ xem đc kq lớn nhất mà hông thấy các thông tin còn lại của dòng
+   -- cao nhất muốn xem, tức mún xem không chỉ là kết quả cao nhất mà xem hết thông tin khác của dòng đó
+   select top 1 * from Products order by UnitPrice desc
+
+   ---> tuy nhiên thay vì dùng cách sắp xếp giảm dần rồi hiện ra dòng đầu cao nhất,
+   --==>  ta dùng câu lệnh con lòng trong câu lệnh lớn 
+   select * from Products where UnitPrice=(select max(UnitPrice) from Products)
+   --------------------------------->>>> đây là cậu lệnh con( câu lệnh lòng trong một câu lệnh khác)
+
+
+            

@@ -110,4 +110,44 @@ kết hợp với nhau ví dụ BETWEEN với AND, hay In với WHERE......
 
         where name like 'H [^R] [^I]' chỉ cần name nào có 1 trong 2 chữ cái là R hoặc I là bỏ qua.
 
-      
+
+
+>>> đếm dòng với COUNT
+ - select count(*) from  [tên_table]
+  ===> ta sẽ đếm đc có bao nhiều dòng trong tên_bảng
+  - có thể kết hợp đk
+   select count(*) from tên_table where [điều kiện cần xét] >, <..... giá trị nào đó. 
+
+
+
+
+>>> dùng lệnh truy vấn tính tổng giá trị với hàm SUM
+ - ví dụ để xem gia trị côt Tong trong một bảng nào đó thay vì tự cộng ta dùng hàm SUM
+
+   select SUM(Tong) from dbo.tên_table
+   ===> lúc này tổng giá trị của hàng trăm dòng sẽ được tính toán ra.
+
+    ====> có thể kết hợp điều kiện với where...
+
+
+
+
+>>> tìm giá trị MAX, MIN trong select
+ - thay vì dùng lệnh orrder by, hay order by desk để sắp xếp giá trị thì ta dùng max min để kiểm tra số lớn nhất
+ và nhỏ nhất
+
+   select MAX/MIN(tên_cột) from [dbo.tên_bảng]
+
+   ==> lúc này ta sẽ tìm đc giá trị lớn nhất/ nhỏ nhất trong cột đó thay vì phải dùng oder by sắp xếp rồi hiển thị ra.
+
+
+
+
+
+>>>lấy giá trị trung bình trong một cột dùng hàm AVG
+
+    select AVG(tên_cột) from [dbo.tên_bảng]
+      ====>vd bỏ cot tong vào avg thì nó sẽ lấy ra giá trị tb của tỏng cột
+
+
+

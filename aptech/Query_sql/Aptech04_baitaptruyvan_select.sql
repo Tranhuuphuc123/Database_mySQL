@@ -1,4 +1,7 @@
-﻿--1. Display CustomerID and CompanyName of customers from Customers table.
+﻿USE northwind
+GO
+
+--1. Display CustomerID and CompanyName of customers from Customers table.
 --(Hiển thị CustomerID, CompanyName từ bảng Customer.)
 SELECT [CustomerID], [CompanyName] FROM dbo.Customers
 
@@ -85,9 +88,21 @@ VALUES
 	'VietNam'
     )
 --13.Delete all customers who lives in Vietnam.
+
+SELECT * FROM  dbo.Customers
+DELETE FROM dbo.Customers WHERE Country = 'Vietnam'
 --14.Delete all of orders which were created by the employee ‘8’ in 1997.
+SELECT * FROM dbo.Orders
+SELECT *  FROM dbo.Orders WHERE EmployeeID = 8 AND YEAR(OrderDate) = 1997
+
+DELETE FROM dbo.Orders WHERE EmployeeID = 8  AND YEAR(OrderDate) = 1997
 --15.Display all customers who live in ‘USA’, ‘UK’, ‘Mexico’, ‘Brazil’ or
 --‘France’. Their region fields are not null and their customer ids contain the character ‘A’
+
+SELECT * FROM dbo.Customers
+
+SELECT * FROM dbo.Customers WHERE Country IN ('UK', 'Mexico', 'USA', 'Brazil', 'France') AND CompanyName LIKE
+'A%'
 
 
 

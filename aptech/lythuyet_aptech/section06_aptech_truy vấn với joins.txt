@@ -1,0 +1,74 @@
+************************ TRUY VẤN NÂNG CAO VỚI JOINS(lưu ý truy vấn này ở phía server )*************************
+- Như tên gọi của nó joins là kết nối các thông tin giữa 2 bản lại với nhau thông qua 1 đk chung như mã nào đó mà
+ở bản 1 có và bàng 2 cũng có
+-note: lưu ý dùng join..on là khai báo phía server nếu là khai báo bt lk nhiều bàng thì cách nhau dấu , là đc
+và không dùng đk với on mà là where.
+- Join có 3 loại là 
+ >>>>> inner Join: lk 2 bảng có chung đk và khớp thông tin với nhau
+  nghĩa là giống như tập hợp a với b thì những tp chung có ở cả a và b thì nó mới match với nhau đc gọi la inner join,
+  còn những phần có ở a hoặc b mà cái còn lại không có thì khi dùng inner join(hay join) nó sẽ không có match(ối lại)
+  và hiên rthij ra, tức nó bỏ qua những cái phần không có chung ở cả 2 bên.
+
+  ===>t/c: khi khai báo thì a join b hay b join a đều có nghĩa như nhau
+
+
+ >>>>>> Outer join: có 2 loại
+   + left outer join: lk và xét phần tử có ở tất cả bên phía trái làm gốc khi khai báo. nếu phần tử nào có ở 
+   bền A  mà bên b cũng có thì hiển thị còn nào có bên a mà bên b hông thì hiển thị là null.
+   + right outer join:lk và xét phần tử có ở tất cả bên phía phải làm gốc khi khai báo. nếu phần tử nào có ở 
+   bền B  mà bên A cũng có thì hiển thị còn nào có bên B mà bên A hông thì hiển thị là null.
+
+   ===>t/c: a outer join với b, nếu dùng left thì nó sẽ chọn xét bên a còn right thì nó sẽ xét bên b.
+
+>>>>>> selt join: join tự thân, tức là lk join của chính bản đó=> cần tìm hiểu lại
+
+
+
+
+
+
+
+
+*********************************************************************************************************
+-Ví dụ minh họa:
+
+ >> inner Join: có thể ghi inner join hay join nó cũng hiểu
+- cú pháp: thông qua ví dụ  ở mục Query_sql/Aptech06_truyvannangcao_joins.sql
+   
+    +ví dụ: về inner join
+
+       -- bài toán: lấy các thông tin masp, tensp, maloai, tenloai don giá từ 2 bảng product và category
+            select * from Products
+            select * from Categories
+
+        --> vấn đề gặp phải là tên loại nằm ở bàng category còn các tt còn lại thì ở bảng product..
+
+        ---> hg giải quyết là dùng joins
+        select ProductID,ProductName,Products.CategoryID, CategoryName, UnitPrice from Products join Categories
+        on Products.CategoryID = Categories.CategoryID
+
+        ++trong đó
+         +++ join để lk
+         +++Products.CategoryID = Categories.CategoryID: nghĩa là ma chung phải kết nối với bảng lk
+         +++Products.CategoryID: mã cần lấy cần có bảng lk để nó lấy đúng địa chỉ nếu không khai báo dậy sẽ gặp lỗi
+         địa chỉ lk
+
+
+
+
+
+>>Outer join: xem thêm bên phần thực hành ở mục thông qua ví dụ  ở mục Query_sql/Aptech06_truyvannangcao_joins.sql
+>> selt join: join tự thân==> xem lại?
+   
+>> join nhiều hơn 2 bảng dữ liệu:
+
+  
+
+
+
+
+
+
+===>>>>>Note: để lấy dữ liệu từ 2 bảng có thể dùng sub_query và join tuy nhiên nên dùng join vì tốc độ nhanh dễ truy vấn qua
+lại, đặc biệt là có thể lấy thoogn tin 2 bên hiên rthij rất dễ dàng do đã lk trc khi thực thi câu lệnh đk
+
