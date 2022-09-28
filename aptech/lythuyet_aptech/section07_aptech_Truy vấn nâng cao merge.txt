@@ -1,0 +1,50 @@
+***************TÌM HIỂU VỀ TRUY VẤN NÂNG CAO VỚI MERGE*******************
+
+-Khái niệm: MERGE có 3 chức năng chính trong cùng 1 lệnh đó là , thường dùng MERGE khi có 2 bảng trở lên
+ + Insert: cập nhật thêm dữ liệu
+ + Update: sữa thêm dữ liệu
+ + delete: xóa dữ liệu, có quyền giữ hoặc xóa đối với MERGE
+
+
+===> MERGE là chức năng gộp 2 table lại với nhau do cấu trúc khá tự do nên không có khuôn mẫu nhất định
+do đó khi MERGE ta theo cấu trúc và tùy biến với 2 điều kiện phụ la matched và not matched, nghĩa là khi
+2dk khớp và không khớp (tham khảo thêm bên mục: Query_sql/Aptech08_Slectnangcao_merge.sql)
+
+
+-----> giải thích rõ hơn là khi MERGE thì sẽ xét dựa trên khóa chính khi lk , và suy luận luôn tất cả các đk 
+phụ kèm theo: 
+  ++ cái nào mà từ khóa chính nó khớp ở 2 bên thì mình xét theo matched(nếu tp phụ bên trong nó khác thì then 
+  update...)
+  ++ cái nào mà có ở target mà không có ở source thì xét à not matched by target
+  ++ cái nào có ở source mà không có ở target thì xét theo not matched by source
+ ==> tất cả dữ liệu kèm theo khi muốn cập nhật update hay delete thì chèn sau then
+ vd: then update
+     then delete 
+
+
+ ***Note: (xem thêm bên phần query để hiểu rõ hơn)
+
+
+
+
+>>>> Cấu Trúc:
+   MERGE tên_table1 as target
+   USING tên_table2 as source
+   ON target.maID =  source.maID
+
+   ---> 'maID' đc hiểu là id chung nào đó đc xác định để lk 2 bảng giống với kiểu khai báo bên Join giữa 2 table
+   ----> ta phải xác định xem table nào là source table nào là target, vì chức năng của MERGE là đổ và gộp từ source
+   vào target.
+
+
+   vd: 
+
+      xem phần code Query_sql/ Aptech08_Slectnangcao_merge.sql
+
+
+****************************************************************************************************
+>>>>> COMMON TABLE EXPRESSIONS (CTEs)<<<<<<
+
+
+- Gọi là một tập kết quả tạm thời, nghĩa là bảng tạm thời do chúng ta thực thi câu lệnh mà sinh ra
+sau khi thực hiện lệnh thực thi xong thì bảng sẽ mất đi

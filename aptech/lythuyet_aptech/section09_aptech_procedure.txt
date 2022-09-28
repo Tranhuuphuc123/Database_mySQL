@@ -1,0 +1,32 @@
+*****************************TIỀM HIỂU VỀ PHƯƠNG THỨC STORED PRECEDURE**************************************
+
+>> Khái Niệm:
+   - Stored ProceduRe  là một phương thức, một hàm  được lưu trữ sẵn trong sql phía server.
+   - mục đích:
+      ProceduRe mục đích là sinh ra câu lệnh trực tiếp đc lưu trữ sẵn trong sql để tránh việc
+   các câu lệnh thông thường bị tráo câu lệnh do phía bên t3 tấn công(hacker), thông thường truy vấn
+   sql thông qua câu lệnh tool query rất dễ bị thay đổi nên ProceduRe là cấu trúc có sẵn khi chạy lệnh
+   không bị bên t3 tùy tiền can thiệp.
+   
+
+>> Phân loại Stored Procedure:
+  - có 2 loại
+   > use-defined stored ProceduRe(ProceduRe sử dụng thg nhật)
+     ++ Transact sql stored ProceduRe: ProceduRe sử dụng câu lệnh Transact
+     ++ Common Language runtime(CLR) stored ProceduRe: sử dụng câu lệnh của thư viện Common Language
+
+
+   > Extended stored Procedure (ProceduRe của hệ thống): cung cấp ProceduRe thực hiện hiện lệnh tg tác với hệ
+   thống máy.
+
+   > system stored ProceduRe: cũng là ProceduRe của hệ thống. cung cấp khả năng cấp quyền và quản trị trên hiện
+   thống: gồm nhiều câu lệnh có sẵn
+     + sp_table: dùng để biết tổng số table trong dataase(gồm cả thông tin chi tiết)
+     + sp_column 'tên table': biết bảng table có nhiêu column(gồm nhiều thông tin chi tiết)
+     + sp_helptext
+     +
+
+
+     ===> phần thực thi câu lệnh minh họa ví dụ xem thêm bên QUery/Aptech09-Stored_predured
+     
+    
