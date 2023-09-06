@@ -30,10 +30,12 @@
 
       drop database tên_data.
 
-  >> đổi tên raname database.
+  >> đổi tên rename database trong mysql workbench.
 
-     alter database tên_data modify name ='tên_data mới'
+      RENAME DATABASE data_name TO [new data_name];
 
+  >> đổi tên database trong MS SQL:
+      sp_rename [tên database cũ], [tên database mới]
 
 
 
@@ -56,9 +58,21 @@
 
 
 
-  >> đổi tên table.
+  >> đổi tên table trong my SQL workbench.
 
-    alter table [tên_table] modify name ='tên_table mới'
+   RENAME TABLE table_name TO [new table_name];
+
+  >> đổi tên table trong MS SQL
+
+   sp_rename [tên bảng cũ], [tên bảng mới]
+
+    vd:
+          sp_rename employee, Employee
+
+            or viết kiểu như sau
+
+          sp_rename 'employee', 'Employee'
+ 
 
 
 
@@ -70,14 +84,31 @@
 
           alter table customer change phuc1 phuc2 int 
 
+  >> đổi tên cột trong bảng dùng MS SQL:
+     sp_rename 'table_name.coulumn_name_old','column_name_new','column'
+
+     + trong đó:
+        ++ 'table_name.coulumn_name_old': liên kết tên cột cũ với bảng
+        ++ 'column_name_new': tên cột mới
+        ++  'column': trường bắt buộc hiển thị thay đổi của cột.
+
+        vd:
+          sp_rename 'Employee.name', 'Name', 'column'
+       
+
       
 
   >> đổi kiểu dữ liệu cột trong bảng.
 
-       alter table [tên_table] alter column [tên_cột] [kiểu datatype muốn đổi] 
+       alter tabel [table_name] modify [column_name] [kiểu datatype muốn đổi] --> chỉ dùng cho mysql workbench
+
+          or
+
+       alter table [tên_table] alter column [tên_cột] [kiểu datatype muốn đổi]--> dùng cho MS SQL(Workbench cũng đc) 
 
     ++ví dụ: đổi kiểu int sang nvarchar của cột Age trong bảng customer.
-       
+       alter table customer  modify Age nvarchar(50)
+          or
        alter table customer  alter column Age nvarchar(50)
 
 

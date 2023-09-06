@@ -79,7 +79,7 @@ mà đặc biệt là count hay sum.. (tức các truy vấn với group by mà 
 thay vì ta group by nhóm đối tượng rồi dùng hàm sum, thì việc lk nhiều bảng với nhiều group by sẽ gây hạn 
 chế cho việc tính tổng ( vì nó tính mộ cách tổng quát không cụ thể theo group by). Cho nên dùng rollup và 
 cube sẽ giúp  phân định tỏng theo nhóm group by trc đó.
-===> hãy xem ví dụ để hiểu
+===> hãy xem ví dụ để hiểu&
 
   ++ ví dụ:
 

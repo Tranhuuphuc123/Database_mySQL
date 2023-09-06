@@ -85,11 +85,11 @@ or có thể bỏ into table;
 - xóa chủ đích dòng cột muốn xóa
      DELETE tên_bảng  where tên_key_dòng_cần_xóa = số vị trí hay mã.....
       vd:    
-               DELETE hocsinh where msv = 12
+               DELETE from hocsinh where msv = 12
 
          -- xóa chi tiết dòng, cột theo vị trí muons xóa
 
-                DELETE dbo.hocsinh WHERE mahs = 12
+                DELETE from dbo.hocsinh WHERE mahs = 12
                 go
 
 -------------> ngoài ra sau where ta có thể thêm điều kiện(này thì làm nhiều sẽ cứng.. kinh nghiệm thực chiến)

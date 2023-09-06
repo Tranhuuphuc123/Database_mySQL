@@ -77,6 +77,28 @@ sp_helptext [New_tables]
 
 
 ------------------------------------------------------------------------------------------
---check option trên view:
+--check option trên view:câu lệnh ràng buộc với bảng ảo view, nhằm thỏa đk đc dặt ra trên bảng ảo
+
+ create view bang_ao01 
+ as
+   select * from Products
+   where UnitPrice >50
+   with check option
+   --====> lúc này giá trị đk đặt ra khi tạo bảng ảo view sẽ đc ghi nhận và nếu tiến hành update, insert
+   -- giá trị dưới 50 sẽ đc thông báo lỗi như ử bản table chính
+
+   
+   -->>>> thuộc tính WITH SCHEMABIDING BẢ VỆ VÀ TRÁNH SAI XÓT khi xóa thuộc tính cha của bảng ảo view
+   create view bang_ao02 with schemabinding
+
+   as
+    select * from Products 
+	--===> thuộc tính with shemabinding giúp ràng buộc và ktra thuộc tính nhằm tránh thực thi lệnh nào
+	--đó tùy ý trên thuộc tính cha
+
+	----------------------------------------------------------------------------------------------
+
+
+
 
 

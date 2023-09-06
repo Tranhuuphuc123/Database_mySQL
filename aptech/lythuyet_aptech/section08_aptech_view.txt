@@ -44,3 +44,22 @@ dữ liệu tốc độ truy vấn càng chậm). thay vì phải joins các b�
  --+ Không đc trung tên với table dễ gây truy vấn nhầm
  --+ không có giá trị DEFAULT
  --+ không chứa quá 1024 column
+
+
+
+ >>>> WITH CHECK OPTION: Tạo ràng buộc với bnagr ảo view
+ ---> một số trường hợp khi tạo bảng ảo view có một số đk (vd: có slect, update những sp giá trên 50 chẳng hạn)
+ khi ta tiến hành update, insert những sp giá dưới 50 thì nó vi phạm đk  đã đặt ra trc đó. Tuy nhiên khi thực thi
+thì câu lệnh vẫn sẽ đc tiến hành có điều nó không hiển thị đc lên do khoogn thỏa đk ban đầu
+=====> để giải quyết vấn đề trên ta dùng câu lệnh ràng buộc [WITH CHECK OPTION] SAU create view để những đk đc thiết 
+lập trên bảng ảo sẽ có hiệu lực
+
+  () xem ví dụ bên phần bài tập: Sql_query/Aptech09_view
+
+
+
+>>>> NOTE: khi cập nhật thuộc tính ở pt table cha thì bảng ảo view dễ bị ảnh hưởng liên đới,
+do đó để ngăn chặn vfa bảo vệ bảng ả view trc tình huống xóa nhầm thuộc tính hiển thị
+trên view ở table gốc ta thêm with SCHEMABIDING.
+
+--> xem ví dụ bên phần bài tập: Sql_query/Aptech09_view
