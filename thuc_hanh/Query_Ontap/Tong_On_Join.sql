@@ -96,3 +96,34 @@ select l.malop, tenlop, masv, hoten from lophoc l join sinhvien s on l.malop = s
   => như vậy inner join: thì chỉ nhưng values mà có chung ở 2 bảng thì nó mới match
   con lại thì ẩn đi
 */
+
+
+
+/*********TIỀM HIỂU VỀ OUTER JOIN: LEFT - RIGHT**********/
+/*
+ >>>> outer join: có 2 loại là left outer join hay còn gọi left join
+ và right outer join hay còn gọi là right join
+  
+  1/ left outer join:
+   => nó xem bản phía bên trai khi join làm bản gốc
+   => vậy lấy bản gốc bên trái đối chiều với bảng còn lại cái nào có
+   thì match không thì null
+
+   2/ right outer join:
+    => ngc lại nó xem bản bên phải khi join làm bản gốc đối chiếu
+
+*/
+
+select l.malop, masv, hoten from lophoc l left outer join sinhvien s on l.malop = s.malop
+select s.malop, masv, hoten from lophoc l right outer join sinhvien s on l.malop = s.malop
+
+
+/************truy vấn join với nhiều bảng một lượt****************/
+-- => như vậy join không giới hạn truy vấn chỉ 1 dến 2 bảng
+--=> mà nó có thể join rất nhiều bảng table một lúc
+use northwind
+
+-- hiển thị các trường mong muốn từ 3 bảng trở lên
+select ProductID, p.CategoryID, p.SupplierID, ProductName, CategoryName, CompanyName
+from Products p join Categories c on p.CategoryID = c.CategoryID
+                join Suppliers s on p.SupplierID = s.SupplierID
