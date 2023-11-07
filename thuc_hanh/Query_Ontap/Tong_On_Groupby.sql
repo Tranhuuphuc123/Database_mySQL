@@ -7,7 +7,7 @@ use northwind
 select * from Products
 select SupplierID, count(*) from Products --sai cú pháp
 -- => câu lệnh này sai vì counter là đếm tổng số dòng của table
--- => vì vậy để truy vấn đc rổng số id của cột SuplierID thì cần nhóm các id cùng loại lại với groupby
+-- => vì vậy để truy vấn đc tổng số id của cột SuplierID thì cần nhóm các id cùng loại lại với groupby
 select SupplierID, count(*) from Products group by SupplierID
 -- =>lúc này ns nhóm các id chung loại lại làm một và đếm tổng số lần xuất hiện của mỗi loại
 
